@@ -2,6 +2,11 @@ using UnityEngine;
 using System.Collections;
 
 public class walls : MonoBehaviour {
+    /*
+    [Header("Wall")]
+    [SerializeField]
+    GameObject wallPrefab;
+    */
 
     public static int radius = 10;
 
@@ -15,12 +20,15 @@ public class walls : MonoBehaviour {
     {
         timeLeft -= Time.deltaTime;
         if ((int)timeLeft <= 0 && PlayerController.isAlive) {
-            print("Level Won!!");
+            LevelManager.currentLevel++;
+            SetupWalls();
+
         }
     }
 
     void SetupWalls()
     {
+        timeLeft = 60.0f;
         radius = LevelManager.currentLevel * 10;
         transform.localScale = new Vector3(radius, radius, radius);
     }
