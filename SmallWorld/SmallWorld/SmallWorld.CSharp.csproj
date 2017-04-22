@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Camera\CameraControls.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraEdgeFollow.cs" />
     <Compile Include="Assets\Scripts\Camera\SmoothFollow.cs" />
     <Compile Include="Assets\Scripts\Food\Food.cs" />
     <Compile Include="Assets\Scripts\Gameplay\FoodManager.cs" />
