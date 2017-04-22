@@ -5,7 +5,7 @@ using System.Collections;
 public class CameraEdgeFollow : MonoBehaviour {
 
     Camera cam;
-    float speed = 3.0f;
+    float speed = 5.0f;//3
 
     GameObject thePlayer;
     /*

@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using UnityStandardAssets.ImageEffects;
 
 [RequireComponent(typeof(PlayerMotor))]
 
 public class PlayerController : MonoBehaviour {
 
     //Vector2 target;
-    float speed = 3.0f;
+    float speed = 5.0f; // 3
 
     public static bool isAlive;
     float timeLeft = 30.0f;
@@ -14,10 +15,12 @@ public class PlayerController : MonoBehaviour {
 
     PlayerMotor motor;
 
+    Camera cam;
+
 	void Start () {
         isAlive = true;
         //target = transform.position;
-
+        cam = GameObject.Find("Camera").GetComponent<Camera>();
         motor = GetComponent<PlayerMotor>();
 	}
 	
@@ -47,12 +50,15 @@ public class PlayerController : MonoBehaviour {
             if ((int)timeLeft <= 0) {
                 Kill();
             }
-
+            
             // calculate distance from center
             float distance = Vector2.Distance(transform.position, new Vector2(0,0));
             if ((int)distance >= walls.radius) {
                 Kill();
             }
+
+            cam.GetComponent<Bloom>().bloomIntensity = (distance / walls.radius);
+            //print("Ratio: "+(distance/walls.radius));
         }
 	}
 
