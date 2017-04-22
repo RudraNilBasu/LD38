@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
     //Vector2 target;
     float speed = 3.0f;
 
-    bool isAlive;
+    public static bool isAlive;
     float timeLeft = 30.0f;
     float pickupTime = 10.0f;
 

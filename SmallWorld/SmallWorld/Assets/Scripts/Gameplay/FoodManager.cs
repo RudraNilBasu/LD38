@@ -10,7 +10,7 @@ public class FoodManager : MonoBehaviour {
     	
 	// Use this for initialization
 	void Start () {
-        GenerateRandomFood();
+        StartCoroutine(GenerateRandomFood());
 	}
 	
 	// Update is called once per frame
@@ -18,9 +18,13 @@ public class FoodManager : MonoBehaviour {
 	
 	}
 
-    void GenerateRandomFood()
+    IEnumerator GenerateRandomFood()
     {
-        Vector2 initialPosition = Random.insideUnitCircle.normalized * walls.radius;
-        Instantiate(foodPrefab, initialPosition, Quaternion.identity);
+        for (int i = 0; i < 4; i++)
+        {
+            yield return new WaitForSeconds(5.0f);
+            Vector2 initialPosition = Random.insideUnitCircle.normalized * walls.radius;
+            Instantiate(foodPrefab, initialPosition, Quaternion.identity);
+        }
     }
 }
