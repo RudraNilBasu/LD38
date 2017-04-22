@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Camera))]
-[RequireComponent(typeof(SmoothFollow))]
 public class CameraControls : MonoBehaviour {
 
     Camera cam;

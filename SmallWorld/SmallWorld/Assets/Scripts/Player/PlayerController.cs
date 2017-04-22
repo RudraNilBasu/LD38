@@ -57,7 +57,9 @@ public class PlayerController : MonoBehaviour {
                 Kill();
             }
 
-            cam.GetComponent<Bloom>().bloomIntensity = (distance / walls.radius);
+            float ratio = (distance / walls.radius);
+            cam.GetComponent<Bloom>().bloomIntensity = ratio;
+            cam.GetComponent<ScreenOverlay>().intensity = ratio;
             //print("Ratio: "+(distance/walls.radius));
         }
 	}
