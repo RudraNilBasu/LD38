@@ -6,6 +6,10 @@ using UnityStandardAssets.ImageEffects;
 
 public class PlayerController : MonoBehaviour {
 
+
+    [Header("Energy Release")]
+    [SerializeField]
+    GameObject energyGO;
     //Vector2 target;
     float speed = 5.0f; // 3
 
@@ -64,7 +68,7 @@ public class PlayerController : MonoBehaviour {
         }
 	}
 
-    void Kill()
+    public static void Kill()
     {
         isAlive = false;
     }
@@ -73,6 +77,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (coll.tag == "Food") {
             timeLeft += pickupTime;
+            energyGO.GetComponent<Animation>().Play();
             Destroy(coll.gameObject);
         }
     }

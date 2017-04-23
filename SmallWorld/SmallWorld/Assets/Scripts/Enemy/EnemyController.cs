@@ -46,13 +46,35 @@ public class EnemyController : MonoBehaviour {
             isExpanding = false;
         }
 
+        //rb.MovePosition(rb.position + rb.velocity + velocity * speed * Time.deltaTime);
+    }
+
+    void FixedUpdate()
+    {
+
         // Movement
         float xDiff = thePlayer.transform.position.x - transform.position.x;
         float yDiff = thePlayer.transform.position.y - transform.position.y;
 
         Vector2 velocity = new Vector2(xDiff, yDiff).normalized;
 
-        
-        rb.MovePosition(rb.position + rb.velocity + velocity * speed * Time.deltaTime);
+
+        rb.MovePosition(rb.position + (velocity + rb.velocity) * speed * Time.deltaTime);
+        //rb.velocity = Vector2.ClampMagnitude(rb.velocity, 5.0f);
+    }
+
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.tag == "Player")
+        {
+            PlayerController.Kill();
+        }
+        else if (coll.tag == "Food")
+        {
+            Destroy(coll.gameObject);
+        }
+        else if (coll.tag == "Enemy") {
+            Destroy(gameObject);
+        }
     }
 }
