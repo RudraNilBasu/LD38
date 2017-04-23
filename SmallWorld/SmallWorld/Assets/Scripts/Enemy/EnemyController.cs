@@ -14,10 +14,12 @@ public class EnemyController : MonoBehaviour {
 
     Rigidbody2D rb;
     float speed = 5.0f;
-
     bool kill = false;
 
+    private CameraShake cameraShake;
+
 	void Start () {
+        cameraShake = CameraShake.instance;
         isExpanding = false;
         t = 0;
         realSize = 1.0f;
@@ -63,9 +65,10 @@ public class EnemyController : MonoBehaviour {
             t += (1.5f * Time.deltaTime);
 
             if (t >= 1.0f) {
-                Destroy(gameObject);
+                cameraShake.Shake(0.2f, 0.5f);
                 GameObject _explosion = (GameObject) Instantiate(enemyExplosionPrefab, transform.position, Quaternion.identity);
                 Destroy(_explosion, 5.0f);
+                Destroy(gameObject);
             }
         }
 
@@ -97,6 +100,7 @@ public class EnemyController : MonoBehaviour {
             Destroy(coll.gameObject);
         }
         else if (coll.tag == "Enemy") {
+            cameraShake.Shake(0.1f, 0.1f);
             GameObject _flare = (GameObject)Instantiate(flarePrefab, transform.position, Quaternion.identity);
             Destroy(_flare, 1.0f);
             KillEnemy();

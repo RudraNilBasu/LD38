@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\Camera\CameraControls.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraEdgeFollow.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraEffects.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraShake.cs" />
     <Compile Include="Assets\Scripts\Camera\SmoothFollow.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyController.cs" />
     <Compile Include="Assets\Scripts\Food\Food.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets\Scripts\Gameplay\EnergyReleaser.cs" />
     <Compile Include="Assets\Scripts\Gameplay\FoodManager.cs" />
     <Compile Include="Assets\Scripts\Gameplay\LevelManager.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Score.cs" />
     <Compile Include="Assets\Scripts\Gameplay\WallParticleDestroyer.cs" />
     <Compile Include="Assets\Scripts\Gameplay\walls.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />

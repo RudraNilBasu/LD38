@@ -14,7 +14,9 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     Text timeLeftText;
 
+    private CameraShake cameraShake;
     private AudioManager audioManager;
+    private Score score;
 
     //Vector2 target;
     float speed = 5.0f; // 3, 5
@@ -26,8 +28,11 @@ public class PlayerController : MonoBehaviour {
     PlayerMotor motor;
 
     Camera cam;
+    
 
 	void Start () {
+        cameraShake = CameraShake.instance;
+        score = Score.instance;
         audioManager = AudioManager.instance;
         isAlive = true;
         //target = transform.position;
@@ -95,8 +100,10 @@ public class PlayerController : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.tag == "Food") {
+            cameraShake.Shake(0.1f, 0.1f);
             audioManager.PlaySound("food");
             timeLeft += pickupTime;
+            score.bonus((int)pickupTime);
             energyGO.GetComponent<Animation>().Play();
             Instantiate(foodParticles, transform.position, Quaternion.identity);
             Destroy(coll.gameObject);
