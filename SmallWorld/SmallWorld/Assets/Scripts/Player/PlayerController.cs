@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.tag == "Enemy") {
+        if (coll.tag == "Food") {
             timeLeft += pickupTime;
             Destroy(coll.gameObject);
         }
