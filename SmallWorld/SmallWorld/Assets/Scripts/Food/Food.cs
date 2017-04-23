@@ -12,5 +12,7 @@ public class Food : MonoBehaviour {
 	
 	void Update () {
         transform.position = Vector2.MoveTowards(transform.position, finalPosition, speed * Time.deltaTime);
+
+        transform.Rotate(0, 0, 50 * Time.deltaTime);
     }
 }

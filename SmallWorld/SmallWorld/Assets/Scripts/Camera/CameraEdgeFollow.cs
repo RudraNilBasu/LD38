@@ -5,7 +5,7 @@ using System.Collections;
 public class CameraEdgeFollow : MonoBehaviour {
 
     Camera cam;
-    float speed = 5.0f;//3
+    float speed = 5.0f;//3, 5
 
     GameObject thePlayer;
     /*
@@ -48,5 +48,7 @@ public class CameraEdgeFollow : MonoBehaviour {
         else if (viewPos.y >= 0.8) {
             transform.Translate(Vector2.up * speed * Time.deltaTime);
         }
+
+        speed = LevelManager.currentLevel > 1 ? 10.0f : 5.0f;
 	}
 }

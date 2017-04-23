@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityStandardAssets.ImageEffects;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerMotor))]
 
@@ -9,9 +10,14 @@ public class PlayerController : MonoBehaviour {
 
     [Header("Energy Release")]
     [SerializeField]
-    GameObject energyGO;
+    GameObject energyGO, foodParticles;
+    [SerializeField]
+    Text timeLeftText;
+
+    private AudioManager audioManager;
+
     //Vector2 target;
-    float speed = 5.0f; // 3
+    float speed = 5.0f; // 3, 5
 
     public static bool isAlive;
     float timeLeft = 30.0f;
@@ -22,6 +28,7 @@ public class PlayerController : MonoBehaviour {
     Camera cam;
 
 	void Start () {
+        audioManager = AudioManager.instance;
         isAlive = true;
         //target = transform.position;
         cam = GameObject.Find("Camera").GetComponent<Camera>();
@@ -54,6 +61,17 @@ public class PlayerController : MonoBehaviour {
             if ((int)timeLeft <= 0) {
                 Kill();
             }
+
+            if ((int)timeLeft >= 0) {
+                timeLeftText.text = ((int)timeLeft).ToString() + " seconds\nLeft";
+            }
+            if (timeLeft < 10.0f)
+            {
+                timeLeftText.color = new Color(1.0f, 0.0f, 0.0f);
+            }
+            else {
+                timeLeftText.color = new Color(1.0f, 1.0f, 1.0f);
+            }
             
             // calculate distance from center
             float distance = Vector2.Distance(transform.position, new Vector2(0,0));
@@ -64,7 +82,8 @@ public class PlayerController : MonoBehaviour {
             float ratio = (distance / walls.radius);
             cam.GetComponent<Bloom>().bloomIntensity = ratio;
             cam.GetComponent<ScreenOverlay>().intensity = ratio;
-            //print("Ratio: "+(distance/walls.radius));
+
+            speed = LevelManager.currentLevel > 1 ? 10.0f : 5.0f;
         }
 	}
 
@@ -76,8 +95,10 @@ public class PlayerController : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.tag == "Food") {
+            audioManager.PlaySound("food");
             timeLeft += pickupTime;
             energyGO.GetComponent<Animation>().Play();
+            Instantiate(foodParticles, transform.position, Quaternion.identity);
             Destroy(coll.gameObject);
         }
     }

@@ -8,6 +8,8 @@ public class walls : MonoBehaviour {
     GameObject wallPrefab;
     */
 
+    [SerializeField]
+    GameObject wallExplode;
     SpriteRenderer img;
     float alpha, t;
     int doOnce = 0;
@@ -15,8 +17,11 @@ public class walls : MonoBehaviour {
 
     float totalTime = 60.0f;
     float timeLeft = 60.0f;
-    
+
+    CameraEffects cam;
+
 	void Start () {
+        cam = CameraEffects.instance;
         img = GetComponent<SpriteRenderer>();
         SetupWalls();
 	}
@@ -24,12 +29,28 @@ public class walls : MonoBehaviour {
     void Update()
     {
         timeLeft -= Time.deltaTime;
+
+        if ((int)timeLeft == 3) {
+            cam.chromatic_vignette();
+        }
+
+        if ((int)timeLeft == 9)
+        {
+            cam.chromatic_vignette();
+        }
+
         if ((int)timeLeft <= 0 && PlayerController.isAlive) {
+            Vector2 pos;
+            for (int i = 0; i < radius; i++) {
+                pos = Random.insideUnitCircle * radius;
+                Instantiate(wallExplode, pos, Quaternion.identity);
+            }
             LevelManager.currentLevel++;
             SetupWalls();
 
         }
 
+        /*
         float ratio = timeLeft / totalTime;
         if (ratio < 0.2f && ratio > 0.1f && doOnce == 0) {
             //img.color = new Color(img.color.r, img.color.g, img.color.b, 0.2f);
@@ -46,6 +67,7 @@ public class walls : MonoBehaviour {
 
         img.color = new Color(img.color.r, img.color.g, img.color.b, Mathf.Lerp(img.color.a, alpha, t));
         t += Time.deltaTime;
+        */
     }
 
     void SetupWalls()

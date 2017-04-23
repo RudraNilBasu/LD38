@@ -4,13 +4,18 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyController : MonoBehaviour {
 
+    [SerializeField]
+    GameObject enemyExplosionPrefab, flarePrefab;
+
     float realSize, expandedSize, t;
     bool isExpanding;
 
     GameObject thePlayer;
 
     Rigidbody2D rb;
-    float speed = 2.0f;
+    float speed = 5.0f;
+
+    bool kill = false;
 
 	void Start () {
         isExpanding = false;
@@ -25,25 +30,43 @@ public class EnemyController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         // Animation part
-        float scaled = Mathf.Lerp(realSize, expandedSize, t);
-        transform.localScale = new Vector3(scaled, scaled, scaled);
-        
-        if(isExpanding)
-        {
-            t += Time.deltaTime;
-        } else
-        {
-            t -= Time.deltaTime;
-        }
 
-        if(t <= 0.0f)
+        if (!kill)
         {
-            t = 0.0f;
-            isExpanding = true;
-        } else if(t >= 1.0f)
-        {
-            t = 1.0f;
-            isExpanding = false;
+            float scaled = Mathf.Lerp(realSize, expandedSize, t);
+            transform.localScale = new Vector3(scaled, scaled, scaled);
+
+            if (isExpanding)
+            {
+                t += Time.deltaTime;
+            }
+            else
+            {
+                t -= Time.deltaTime;
+            }
+
+            if (t <= 0.0f)
+            {
+                t = 0.0f;
+                isExpanding = true;
+            }
+            else if (t >= 1.0f)
+            {
+                t = 1.0f;
+                isExpanding = false;
+            }
+        }
+        else {
+            float scaled = Mathf.Lerp(expandedSize, 0, t);
+            transform.localScale = new Vector3(scaled, scaled, scaled);
+
+            t += (1.5f * Time.deltaTime);
+
+            if (t >= 1.0f) {
+                Destroy(gameObject);
+                GameObject _explosion = (GameObject) Instantiate(enemyExplosionPrefab, transform.position, Quaternion.identity);
+                Destroy(_explosion, 5.0f);
+            }
         }
 
         //rb.MovePosition(rb.position + rb.velocity + velocity * speed * Time.deltaTime);
@@ -74,7 +97,14 @@ public class EnemyController : MonoBehaviour {
             Destroy(coll.gameObject);
         }
         else if (coll.tag == "Enemy") {
-            Destroy(gameObject);
+            GameObject _flare = (GameObject)Instantiate(flarePrefab, transform.position, Quaternion.identity);
+            Destroy(_flare, 1.0f);
+            KillEnemy();
         }
+    }
+
+    void KillEnemy()
+    {
+        kill = true;
     }
 }
