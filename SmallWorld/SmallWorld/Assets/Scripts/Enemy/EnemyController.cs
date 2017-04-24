@@ -32,9 +32,10 @@ public class EnemyController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         // Animation part
-
+        
         if (!kill)
         {
+            /*
             float scaled = Mathf.Lerp(realSize, expandedSize, t);
             transform.localScale = new Vector3(scaled, scaled, scaled);
 
@@ -57,6 +58,7 @@ public class EnemyController : MonoBehaviour {
                 t = 1.0f;
                 isExpanding = false;
             }
+            */
         }
         else {
             float scaled = Mathf.Lerp(expandedSize, 0, t);

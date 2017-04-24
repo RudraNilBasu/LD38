@@ -1,0 +1,4 @@
+This is your world
+But this is not
+
+inc enemy, decrease food with time
