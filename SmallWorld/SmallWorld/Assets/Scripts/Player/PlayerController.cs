@@ -14,31 +14,49 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     Text timeLeftText;
 
+    [SerializeField]
+    GameObject explosionGO;
+
     private CameraShake cameraShake;
     private AudioManager audioManager;
     private Score score;
+    private menu _menu;
 
     //Vector2 target;
     float speed = 5.0f; // 3, 5
 
     public static bool isAlive;
     float timeLeft = 30.0f;
-    float pickupTime = 10.0f;
+    float pickupTime = 6.0f;
 
     PlayerMotor motor;
 
     Camera cam;
-    
 
-	void Start () {
-        cameraShake = CameraShake.instance;
-        score = Score.instance;
-        audioManager = AudioManager.instance;
+    public static PlayerController instance;
+
+	void Awake () {
+        //instance = this;
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else {
+            instance = this;
+        }
         isAlive = true;
         //target = transform.position;
         cam = GameObject.Find("Camera").GetComponent<Camera>();
         motor = GetComponent<PlayerMotor>();
 	}
+
+    void Start()
+    {
+        cameraShake = CameraShake.instance;
+        score = Score.instance;
+        audioManager = AudioManager.instance;
+        _menu = menu.instance;
+    }
 	
 	void Update () {
         if (isAlive)
@@ -64,7 +82,7 @@ public class PlayerController : MonoBehaviour {
             // remaining time
             timeLeft -= Time.deltaTime;
             if ((int)timeLeft <= 0) {
-                Kill();
+                Kill("Out of energy");
             }
 
             if ((int)timeLeft >= 0) {
@@ -81,29 +99,34 @@ public class PlayerController : MonoBehaviour {
             // calculate distance from center
             float distance = Vector2.Distance(transform.position, new Vector2(0,0));
             if ((int)distance >= walls.radius) {
-                Kill();
+                Kill("r.... Roasted");
             }
 
             float ratio = (distance / walls.radius);
-            cam.GetComponent<Bloom>().bloomIntensity = ratio;
-            cam.GetComponent<ScreenOverlay>().intensity = ratio;
+            cam.GetComponent<Bloom>().bloomIntensity = 0.5f + ratio;
+            cam.GetComponent<ScreenOverlay>().intensity = 0.5f + ratio;
 
             speed = LevelManager.currentLevel > 1 ? 10.0f : 5.0f;
         }
 	}
 
-    public static void Kill()
+    public void Kill(string _value)
     {
         isAlive = false;
+        audioManager.PlaySound("player_die");
+        Instantiate(explosionGO, transform.position, Quaternion.identity);
+        _menu.ShowMenu(_value);
+        Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.tag == "Food") {
-            cameraShake.Shake(0.1f, 0.1f);
+            cameraShake.Shake(0.2f, 0.2f);
             audioManager.PlaySound("food");
             timeLeft += pickupTime;
-            score.bonus((int)pickupTime);
+            score.bonusPoint((int)pickupTime);
+            score.bonusTime((int)pickupTime);
             energyGO.GetComponent<Animation>().Play();
             Instantiate(foodParticles, transform.position, Quaternion.identity);
             Destroy(coll.gameObject);

@@ -8,6 +8,8 @@ public class CameraEdgeFollow : MonoBehaviour {
     float speed = 5.0f;//3, 5
 
     GameObject thePlayer;
+
+    float boundary = 0.4f;
     /*
     int boundary = 50;
     float screenWidth, screenHeight;
@@ -32,21 +34,26 @@ public class CameraEdgeFollow : MonoBehaviour {
         float yPos = thePlayer.transform.position.y;
         if (xPos > screenWidth) { }
         */
-        Vector3 viewPos = cam.WorldToViewportPoint(thePlayer.transform.position);
-        //print(viewPos.x+","+viewPos.y);
-        if (viewPos.x <= 0.2)
+        if (cam != null && thePlayer != null)
         {
-            transform.Translate(Vector2.left * speed * Time.deltaTime);
-        }
-        else if (viewPos.x >= 0.8) {
-            transform.Translate(Vector2.right * speed * Time.deltaTime);
-        }
-        if (viewPos.y <= 0.2)
-        {
-            transform.Translate(Vector2.down * speed * Time.deltaTime);
-        }
-        else if (viewPos.y >= 0.8) {
-            transform.Translate(Vector2.up * speed * Time.deltaTime);
+            Vector3 viewPos = cam.WorldToViewportPoint(thePlayer.transform.position);
+            //print(viewPos.x+","+viewPos.y);
+            if (viewPos.x <= boundary)
+            {
+                transform.Translate(Vector2.left * speed * Time.deltaTime);
+            }
+            else if (viewPos.x >= (1.0f - boundary))
+            {
+                transform.Translate(Vector2.right * speed * Time.deltaTime);
+            }
+            if (viewPos.y <= boundary)
+            {
+                transform.Translate(Vector2.down * speed * Time.deltaTime);
+            }
+            else if (viewPos.y >= (1.0f - boundary))
+            {
+                transform.Translate(Vector2.up * speed * Time.deltaTime);
+            }
         }
 
         speed = LevelManager.currentLevel > 1 ? 10.0f : 5.0f;

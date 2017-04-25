@@ -16,9 +16,13 @@ public class EnemyController : MonoBehaviour {
     float speed = 5.0f;
     bool kill = false;
 
+    private AudioManager audioManager;
     private CameraShake cameraShake;
+    private PlayerController playerController;
 
 	void Start () {
+        audioManager = AudioManager.instance;
+        playerController = PlayerController.instance;
         cameraShake = CameraShake.instance;
         isExpanding = false;
         t = 0;
@@ -79,29 +83,34 @@ public class EnemyController : MonoBehaviour {
 
     void FixedUpdate()
     {
-
         // Movement
-        float xDiff = thePlayer.transform.position.x - transform.position.x;
-        float yDiff = thePlayer.transform.position.y - transform.position.y;
+        if (thePlayer != null)
+        {
+            float xDiff = thePlayer.transform.position.x - transform.position.x;
+            float yDiff = thePlayer.transform.position.y - transform.position.y;
 
-        Vector2 velocity = new Vector2(xDiff, yDiff).normalized;
+            Vector2 velocity = new Vector2(xDiff, yDiff).normalized;
 
 
-        rb.MovePosition(rb.position + (velocity + rb.velocity) * speed * Time.deltaTime);
-        //rb.velocity = Vector2.ClampMagnitude(rb.velocity, 5.0f);
+            rb.MovePosition(rb.position + (velocity + rb.velocity) * speed * Time.deltaTime);
+            //rb.velocity = Vector2.ClampMagnitude(rb.velocity, 5.0f);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.tag == "Player")
+        if (coll.tag == "Player" && PlayerController.isAlive)
         {
-            PlayerController.Kill();
+            //PlayerController.Kill();
+            playerController.Kill("Hunt, or be hunted");
+            cameraShake.Shake(1.0f, 0.8f);
         }
         else if (coll.tag == "Food")
         {
             Destroy(coll.gameObject);
         }
         else if (coll.tag == "Enemy") {
+            audioManager.PlaySound("explosion");
             cameraShake.Shake(0.1f, 0.1f);
             GameObject _flare = (GameObject)Instantiate(flarePrefab, transform.position, Quaternion.identity);
             Destroy(_flare, 1.0f);

@@ -19,11 +19,18 @@ public class walls : MonoBehaviour {
     float timeLeft = 60.0f;
 
     CameraEffects cam;
+    AudioManager audioManager;
+    Story story;
+
+    int storyOnce = 0;
 
 	void Start () {
         cam = CameraEffects.instance;
+        audioManager = AudioManager.instance;
+        story = Story.instance;
         img = GetComponent<SpriteRenderer>();
         SetupWalls();
+        StartCoroutine(TellStory1());
 	}
 
     void Update()
@@ -45,9 +52,13 @@ public class walls : MonoBehaviour {
                 pos = Random.insideUnitCircle * radius;
                 Instantiate(wallExplode, pos, Quaternion.identity);
             }
+            audioManager.PlaySound("explosion_2");
             LevelManager.currentLevel++;
             SetupWalls();
 
+            if (LevelManager.currentLevel == 2 && storyOnce == 0) {
+                StartCoroutine(TellStory2());
+            }
         }
 
         /*
@@ -78,5 +89,25 @@ public class walls : MonoBehaviour {
         timeLeft = totalTime;
         radius = LevelManager.currentLevel * 10;
         transform.localScale = new Vector3(radius, radius, radius);
+    }
+
+    IEnumerator TellStory1()
+    {
+        yield return new WaitForSeconds(2.0f);
+        story.Show("This is your world");
+        yield return new WaitForSeconds(4.0f);
+
+        story.Show("Absorb the smaller particles in your world to make sure you do not run out of energy");
+    }
+
+    IEnumerator TellStory2()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        story.Show("But... this world may not be yours");
+        yield return new WaitForSeconds(5.0f);
+        story.Show("You see, the world is just too small to hold every one");
+        yield return new WaitForSeconds(5.0f);
+        story.Show("Hunt, or be hunted");
     }
 }

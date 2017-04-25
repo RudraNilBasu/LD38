@@ -2,3 +2,11 @@ This is your world
 But this is not
 
 inc enemy, decrease food with time
+
+This is your world
+
+Absorb the smaller particles in your world to make sure you do not run out of energy
+
+But... this world may not be yours.
+You see, the world is just too small to hold every one
+Hunt, or be hunted
