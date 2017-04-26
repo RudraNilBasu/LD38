@@ -94,9 +94,17 @@ public class walls : MonoBehaviour {
     IEnumerator TellStory1()
     {
         yield return new WaitForSeconds(2.0f);
+        if (!PlayerController.isAlive)
+        {
+            yield return 0;
+        }
         story.Show("This is your world");
         yield return new WaitForSeconds(4.0f);
 
+        if (!PlayerController.isAlive)
+        {
+            yield return 0;
+        }
         story.Show("Absorb the smaller particles in your world to make sure you do not run out of energy");
     }
 
@@ -104,10 +112,24 @@ public class walls : MonoBehaviour {
     {
         yield return new WaitForSeconds(3.0f);
 
+        if (!PlayerController.isAlive) {
+            yield return 0;
+        }
         story.Show("But... this world may not be yours");
         yield return new WaitForSeconds(5.0f);
+
+        if (!PlayerController.isAlive)
+        {
+            yield return 0;
+        }
+
         story.Show("You see, the world is just too small to hold every one");
         yield return new WaitForSeconds(5.0f);
+
+        if (!PlayerController.isAlive)
+        {
+            yield return 0;
+        }
         story.Show("Hunt, or be hunted");
     }
 }
