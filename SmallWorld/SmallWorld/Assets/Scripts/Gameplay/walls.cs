@@ -30,7 +30,7 @@ public class walls : MonoBehaviour {
         story = Story.instance;
         img = GetComponent<SpriteRenderer>();
         SetupWalls();
-        StartCoroutine(TellStory1());
+        //StartCoroutine(TellStory1());
 	}
 
     void Update()
@@ -57,7 +57,7 @@ public class walls : MonoBehaviour {
             SetupWalls();
 
             if (LevelManager.currentLevel == 2 && storyOnce == 0) {
-                StartCoroutine(TellStory2());
+                //StartCoroutine(TellStory2());
             }
         }
 

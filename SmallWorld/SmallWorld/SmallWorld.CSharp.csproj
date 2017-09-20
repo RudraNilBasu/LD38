@@ -78,6 +78,8 @@
     <Compile Include="Assets\Scripts\Camera\CameraShake.cs" />
     <Compile Include="Assets\Scripts\Camera\SmoothFollow.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyController.cs" />
+    <Compile Include="Assets\Scripts\Enemy\Shooting.cs" />
+    <Compile Include="Assets\Scripts\Enemy\bullet.cs" />
     <Compile Include="Assets\Scripts\Food\Food.cs" />
     <Compile Include="Assets\Scripts\Food\FoodParticles.cs" />
     <Compile Include="Assets\Scripts\Gameplay\AudioManager.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMotor.cs" />
     <Compile Include="Assets\Scripts\UI\menu.cs" />
+    <Compile Include="Assets\Scripts\UI\prizm.cs" />
     <Compile Include="Assets\mainMenu.cs" />
   </ItemGroup>
   <ItemGroup>
