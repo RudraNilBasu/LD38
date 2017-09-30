@@ -25,6 +25,7 @@ public class mainMenu : MonoBehaviour {
             gameObject.GetComponent<Animation>().Play("cameraMenuBloomIntensity");
             gameObject.GetComponent<Animation>().Play("cameraZoomInMenu");
             //gameObject.GetComponent<Animation>().Play("cameraMenuBloomIntensity");
+            gameObject.GetComponent<AudioSource>().Play();
             StartCoroutine(startGame());
         }
         if (Input.GetKeyDown(KeyCode.X)) {

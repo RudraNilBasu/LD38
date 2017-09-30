@@ -31,6 +31,7 @@ public class walls : MonoBehaviour {
         img = GetComponent<SpriteRenderer>();
         SetupWalls();
         //StartCoroutine(TellStory1());
+        audioManager.PlaySound("whoosh");
 	}
 
     void Update()
